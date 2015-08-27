@@ -1,0 +1,51 @@
+Minesweeper user stories
+
+As a ______
+I want ______
+So that ______
+
+---
+
+As a Player
+I want to see a grid of squares
+So that I may see the current state of the game
+
+As a Player
+I want to click a square
+So that it may reveal an open area or a bomb
+
+As a Player
+I want revealed non bomb squares to show the number of adjacent bombs
+So that I may deduce where bombs are
+
+As a Player
+I want revealed non bomb squares without adjacent bombs to be blank
+So that I will know there are no bombs near that square
+
+As a Player
+I want revealed blank squares to recursively reveal adjacent squares
+So that I don't have to manually reveal open areas
+
+As a Player
+I want to mark a square with a flag
+So that I will remember where I think bombs are
+
+As a Player
+I want the game to end with a win if I reveal the last non bomb square
+So that I will know I won the game
+
+As a Player
+I want the game to end with a loss if I reveal a bomb
+So that I will know I lost the game
+
+As a Player
+I want all of the bomb locations to be revealed if I lost the game
+So that I can see how I was progressing up to that point
+
+As a Player
+I want the board to be randomized each game
+So that each game is unique
+
+As a Player
+I want to be able to start a new game at any time
+So that I can play again
