@@ -16,14 +16,22 @@ window.printBoard = function() {
   console.log(string);
 }
 
-// reveal a cell, then print the board agaim
+// reveal a cell, then reprint the board
 window.reveal = function(row, col) {
-  game.reveal(row, col);
+  var ret = game.reveal(row, col);
+  printBoard();
+  return ret;
+}
+
+// flag a cell, then reprint board
+window.toggleFlag = function(row, col) {
+  game.toggleFlag(row, col);
   printBoard();
 }
 
-window.toggleFlag = function(row, col) {
-  game.toggleFlag(row, col);
+// reset the game, and print it
+window.reset = function() {
+  board = game.reset();
   printBoard();
 }
 

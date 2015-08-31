@@ -6,6 +6,10 @@ var _ = require('underscore');
 var board    = [];
 var gameOver = false;
 
+// properties
+var boardSize = 9;
+var bombCount = 10;
+
 // enums
 var CELL_VALUE = Object.freeze({
   blank : 0,
@@ -13,10 +17,15 @@ var CELL_VALUE = Object.freeze({
 });
 
 // init game and return the board
-function game(boardSize, bombCount) {
-  boardSize = boardSize || 9;
-  bombCount = bombCount || 10;
+function game(size, bombs) {
+  boardSize = size  || boardSize;
+  bombCount = bombs || bombCount;
 
+  return reset();
+}
+
+// build out the board 2d array
+function buildBoard() {
   board = _.times(boardSize, function(row) {
     return _.times(boardSize, function(col) {
       return {
@@ -28,15 +37,10 @@ function game(boardSize, bombCount) {
       };
     });
   });
-
-  placeBombs(bombCount);
-  setNumbers();
-
-  return board;
 }
 
 // place bombs randomly on the board
-function placeBombs(bombCount) {
+function placeBombs() {
   var cells = _.sample(_.flatten(board), bombCount);
   _.each(cells, function(cell) {
     cell.value = CELL_VALUE.bomb;
@@ -93,9 +97,10 @@ function reveal(row, col) {
 
   // game over if we revealed a bomb
   gameOver = cell.value === CELL_VALUE.bomb || getUnrevealedNonBombCells().length === 0;
-  return !gameOver;
+  return gameOver;
 }
 
+// toggle the flagged state of a cell
 function toggleFlag(row, col) {
   if (gameOver) return;
 
@@ -103,7 +108,19 @@ function toggleFlag(row, col) {
   cell.flagged = !cell.flagged;
 }
 
+// reset state of game back to beginning
+function reset() {
+  buildBoard();
+  placeBombs();
+  setNumbers();
+
+  gameOver = false;
+
+  return board;
+}
+
 game.reveal     = reveal;
 game.toggleFlag = toggleFlag;
+game.reset      = reset;
 
 module.exports = game;
