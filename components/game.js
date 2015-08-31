@@ -3,7 +3,8 @@
 var _ = require('underscore');
 
 // game state
-var board = [];
+var board    = [];
+var gameOver = false;
 
 // enums
 var CELL_VALUE = Object.freeze({
@@ -22,7 +23,8 @@ function game(boardSize, bombCount) {
         row      : row,
         col      : col,
         value    : CELL_VALUE.blank,
-        revealed : false
+        revealed : false,
+        flagged  : false
       };
     });
   });
@@ -43,15 +45,17 @@ function placeBombs(bombCount) {
 
 // set the cell value of non bomb cells to be the number of adjacent bombs
 function setNumbers() {
-  _.each(getBlankCells(), function(cell) {
+  _.each(getUnrevealedNonBombCells(), function(cell) {
     var adjacentBombs = _.where(getSurroundingCells(cell), { value: CELL_VALUE.bomb });
     cell.value = adjacentBombs.length;
   });
 }
 
 // get a 1D array of all current blank cells
-function getBlankCells() {
-  return _.where(_.flatten(board), { value: CELL_VALUE.blank });
+function getUnrevealedNonBombCells() {
+  return _.filter(_.flatten(board), function(cell) {
+    return cell.value !== CELL_VALUE.bomb && !cell.revealed;
+  });
 }
 
 // get all cells surrounding a given cell (including itself)
@@ -75,6 +79,8 @@ function getSurroundingCells(cell) {
 
 // reveal a cell
 function reveal(row, col) {
+  if (gameOver) return;
+
   var cell = _.findWhere(_.flatten(board), { row: row, col: col });
   cell.revealed = true;
 
@@ -84,8 +90,20 @@ function reveal(row, col) {
       reveal(adjacentCell.row, adjacentCell.col);
     });
   }
+
+  // game over if we revealed a bomb
+  gameOver = cell.value === CELL_VALUE.bomb || getUnrevealedNonBombCells().length === 0;
+  return !gameOver;
 }
 
-game.reveal = reveal;
+function toggleFlag(row, col) {
+  if (gameOver) return;
+
+  var cell = _.findWhere(_.flatten(board), { row: row, col: col });
+  cell.flagged = !cell.flagged;
+}
+
+game.reveal     = reveal;
+game.toggleFlag = toggleFlag;
 
 module.exports = game;
