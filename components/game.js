@@ -2,48 +2,56 @@
 
 var _ = require('underscore');
 
-// game properties
-var board     = [];
-var boardSize = 10;
-var bombCount = 10;
+// game state
+var board = [];
+
+// enums
+var CELL_VALUE = Object.freeze({
+  blank : 0,
+  bomb  : 'x'
+});
 
 // init game and return the board
-function game() {
+function game(boardSize, bombCount) {
+  boardSize = boardSize || 9;
+  bombCount = bombCount || 10;
+
   board = _.times(boardSize, function(row) {
     return _.times(boardSize, function(col) {
       return {
-        row   : row,
-        col   : col,
-        value : 0
+        row      : row,
+        col      : col,
+        value    : CELL_VALUE.blank,
+        revealed : false
       };
     });
   });
 
-  placeBombs();
+  placeBombs(bombCount);
   setNumbers();
 
   return board;
 }
 
 // place bombs randomly on the board
-function placeBombs() {
-  _.times(bombCount, function() {
-    var blankCells = getBlankCells();
-    blankCells[_.random(blankCells.length - 1)].value = 'x';
+function placeBombs(bombCount) {
+  var cells = _.sample(_.flatten(board), bombCount);
+  _.each(cells, function(cell) {
+    cell.value = CELL_VALUE.bomb;
   });
 }
 
 // set the cell value of non bomb cells to be the number of adjacent bombs
 function setNumbers() {
   _.each(getBlankCells(), function(cell) {
-    var adjacentBombs = _.where(getSurroundingCells(cell), { value: 'x' });
+    var adjacentBombs = _.where(getSurroundingCells(cell), { value: CELL_VALUE.bomb });
     cell.value = adjacentBombs.length;
   });
 }
 
 // get a 1D array of all current blank cells
 function getBlankCells() {
-  return _.where(_.flatten(board), { value: 0 });
+  return _.where(_.flatten(board), { value: CELL_VALUE.blank });
 }
 
 // get all cells surrounding a given cell (including itself)
@@ -55,22 +63,29 @@ function getSurroundingCells(cell) {
       var row = board[cell.row + i];
       var col = cell.col + j;
 
-      _.isUndefined(row) ? _.noop() : _.isUndefined(row[col]) ? _.noop() : cells.push(row[col]);
+      // _.isUndefined(row) ? _.noop() : _.isUndefined(row[col]) ? _.noop() : cells.push(row[col]);
+      if (!_.isUndefined(row) && !_.isUndefined(row[col])) {
+        cells.push(row[col]);
+      }
     });
   });
 
   return cells;
 }
 
-// stringify the board
-game.stringify = function() {
-  var string = _.reduce(board, function(result, row) {
-    return result + _.reduce(row, function(result, cell) {
-      return result + cell.value;
-    }, '') + '\n';
-  }, '');
+// reveal a cell
+function reveal(row, col) {
+  var cell = _.findWhere(_.flatten(board), { row: row, col: col });
+  cell.revealed = true;
 
-  return string;
+  // if this cell is blank, reveal all adjacent cells
+  if (cell.value === CELL_VALUE.blank) {
+    _.each(_.where(getSurroundingCells(cell), { revealed: false }), function(adjacentCell) {
+      reveal(adjacentCell.row, adjacentCell.col);
+    });
+  }
 }
+
+game.reveal = reveal;
 
 module.exports = game;
