@@ -2,9 +2,9 @@
   "name": "angular-minesweeper",
   "version": "1.0.0",
   "description": "An implementation of minesweeper using Angular.js",
-  "main": "index.js",
   "scripts": {
-    "start": "wzrd cli.js | wtch | garnish"
+    "start": "wzrd main.js:bundle.js | wtch | garnish",
+    "cli": "wzrd cli.js:bundle.js | wtch | garnish"
   },
   "repository": {
     "type": "git",
@@ -18,9 +18,13 @@
   },
   "homepage": "https://github.com/renolc/angular-minesweeper#readme",
   "dependencies": {
+    "angular": "^1.4.5",
     "underscore": "^1.8.3"
   },
   "devDependencies": {
-    "browserify": "^11.0.1"
+    "browserify": "^11.0.1",
+    "wtch": "^3.2.1",
+    "wzrd": "^1.3.1",
+    "garnish": "^2.3.0"
   }
 }

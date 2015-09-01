@@ -2,7 +2,7 @@
 
 var _ = require('underscore');
 
-var game  = require('./components/game');
+var game  = require('./modules/game');
 var board = game();
 
 // print the board
@@ -33,6 +33,13 @@ window.toggleFlag = function(row, col) {
 window.reset = function() {
   board = game.reset();
   printBoard();
+}
+
+// print commands
+window.help = function() {
+  console.log('> reveal(row, col)\n    reveal a cell value\n\n');
+  console.log('> toggleFlag(row, col)\n    toggle a flag on a cell\n\n');
+  console.log('> reset()\n    start a new game');
 }
 
 printBoard();
