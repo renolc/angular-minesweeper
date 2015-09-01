@@ -90,7 +90,7 @@ function reveal(row, col) {
 
   // if this cell is blank, reveal all adjacent cells
   if (cell.value === CELL_VALUE.blank) {
-    _.each(_.where(getSurroundingCells(cell), { revealed: false }), function(adjacentCell) {
+    _.each(_.where(getSurroundingCells(cell), { revealed: false, flagged: false }), function(adjacentCell) {
       reveal(adjacentCell.row, adjacentCell.col);
     });
   }
