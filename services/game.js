@@ -14,6 +14,6 @@ module.exports = function() {
   };
 
   this.reset = function() {
-    game.reset();
+    this.board = game.reset();
   };
 };

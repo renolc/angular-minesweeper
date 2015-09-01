@@ -2,7 +2,8 @@
   <div class="row" ng-repeat="row in board">
     <div class="cell" ng-repeat="cell in row">
       <div ng-if="cell.revealed" class="revealed">{{cell.value}}</div>
-      <div ng-if="!cell.revealed" class="hidden" ng-click="reveal($parent.$parent.$index, $index)"></div>
+      <div ng-if="!cell.revealed" class="hidden" ng-class="{'flagged': cell.flagged}" ng-click="cell.flagged || reveal($parent.$parent.$index, $index)" ng-right-click="toggleFlag($parent.$parent.$index, $index)"></div>
     </div>
   </div>
 </div>
+<input type="button" ng-click="reset()" value="New Game">

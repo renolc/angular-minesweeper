@@ -37,3 +37,7 @@
   background-color: lightblue;
   cursor: pointer;
 }
+
+.flagged {
+  background-color: red;
+}
