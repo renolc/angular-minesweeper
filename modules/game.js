@@ -12,7 +12,7 @@ var bombCount;
 
 // enums
 var CELL_VALUE = Object.freeze({
-  blank : 0,
+  blank : '',
   bomb  : 'x'
 });
 
@@ -51,7 +51,7 @@ function placeBombs() {
 function setNumbers() {
   _.each(getUnrevealedNonBombCells(), function(cell) {
     var adjacentBombs = _.where(getSurroundingCells(cell), { value: CELL_VALUE.bomb });
-    cell.value = adjacentBombs.length;
+    cell.value = adjacentBombs.length > 0 ? adjacentBombs.length : '';
   });
 }
 

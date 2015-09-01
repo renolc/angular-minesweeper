@@ -1,7 +1,8 @@
 <div class="board">
   <div class="row" ng-repeat="row in board">
     <div class="cell" ng-repeat="cell in row">
-      {{cell.value}}
+      <div ng-if="cell.revealed" class="revealed">{{cell.value}}</div>
+      <div ng-if="!cell.revealed" class="hidden" ng-click="reveal($parent.$parent.$index, $index)"></div>
     </div>
   </div>
 </div>
