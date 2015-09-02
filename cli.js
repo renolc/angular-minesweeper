@@ -11,7 +11,7 @@ game();
 window.printBoard = function() {
   var string = _.reduce(game.state.board, function(result, row) {
     return result + _.reduce(row, function(result, cell) {
-      return result + (cell.revealed ? cell.value : cell.flagged ? '?' : '-');
+      return result + (cell.revealed ? (cell.isBomb ? 'x' : cell.adjacentBombs || '.') : (cell.flagged ? '?' : '-'));
     }, '') + '\n';
   }, '') + '\n';
 

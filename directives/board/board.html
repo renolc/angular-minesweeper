@@ -3,10 +3,11 @@
   <div class="board">
     <div class="row" ng-repeat="row in game.state.board">
       <div class="cell" ng-repeat="cell in row">
-        <div ng-if="cell.revealed" class="revealed" ng-class="{'bomb': cell.value === 'x'}">{{cell.value}}</div>
-        <div ng-if="!cell.revealed" class="hidden" ng-class="{'flagged': cell.flagged}" ng-click="cell.flagged || game.reveal($parent.$parent.$index, $index)" ng-right-click="game.toggleFlag($parent.$parent.$index, $index)"></div>
+        <div ng-if="cell.revealed" class="revealed" ng-class="{'bomb': cell.isBomb}">{{cell.adjacentBombs}}</div>
+        <div ng-if="!cell.revealed" class="hidden" ng-class="{'flagged': cell.flagged, 'correct': game.state.gameOver && cell.flagged && cell.isBomb}" ng-click="cell.flagged || game.reveal($parent.$parent.$index, $index)" ng-right-click="game.toggleFlag($parent.$parent.$index, $index)"></div>
       </div>
     </div>
   </div>
+  <div ng-show="game.state.gameOver" class="gameOver">Game Over</div>
   <input type="button" ng-click="game.reset()" value="New Game">
 </div>

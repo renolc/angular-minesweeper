@@ -1,6 +1,7 @@
 * {
   margin: 0;
   padding: 0;
+  font-family: sans-serif;
 }
 
 .container {
@@ -9,15 +10,18 @@
 
 .board {
   margin: 20px 0;
-  float: left;
   border: 1px solid black;
   border-right: none;
   border-bottom: none;
   cursor: default;
+  display: inline-block;
+}
+
+input {
+  display: block;
 }
 
 .cell {
-  float: left;
   display: inline-block;
   border: 1px solid black;
   border-top: none;
@@ -25,9 +29,9 @@
   width: 25px;
   height: 25px;
   text-align: center;
-  font-family: sans-serif;
   font-size: 13px;
   line-height: 25px;
+  vertical-align: top;
 }
 
 .revealed {
@@ -49,9 +53,17 @@
   background-size: 15px 18px;
 }
 
+.correct {
+  background-color: lightgreen;
+}
+
 .bomb {
   background-image: url(/images/bomb.png);
   background-repeat: no-repeat;
   background-position: 50%;
   background-size: 19px 18px;
+}
+
+.gameOver {
+  margin-bottom: 20px;
 }
