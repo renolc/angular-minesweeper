@@ -40,4 +40,4 @@ Run the game as a web app with a visual interface.
 ```bash
 npm start
 ```
-Navigate to [http://localhost:9966](http://localhost:9966) and open the JS console.
+Navigate to [http://localhost:9966](http://localhost:9966).
