@@ -125,10 +125,8 @@ function getSurroundingCells(cell) {
       var row = state.board[cell.row + i];
       var col = cell.col + j;
 
-      // _.isUndefined(row) ? _.noop() : _.isUndefined(row[col]) ? _.noop() : cells.push(row[col]);
-      if (!_.isUndefined(row) && !_.isUndefined(row[col])) {
-        cells.push(row[col]);
-      }
+      // if cell is valid, add to list
+      (_.isUndefined(row) || _.isUndefined(row[col])) ? _.noop() : cells.push(row[col]);
     });
   });
 
@@ -144,16 +142,16 @@ function reveal(row, col) {
   cell.revealed = true;
 
   // if this cell is blank, reveal all adjacent cells
-  if (!cell.isBomb && cell.adjacentBombs === null) {
-    _.each(_.where(getSurroundingCells(cell), { revealed: false, flagged: false }), function(adjacentCell) {
-      reveal(adjacentCell.row, adjacentCell.col);
-    });
+  var toReveal = (!cell.isBomb && cell.adjacentBombs === null) ?
+                   _.where(getSurroundingCells(cell), { revealed: false, flagged: false }) : [];
 
-  } else if (cell.isBomb) {
-    _.each(_.where(flatBoard, { revealed: false, isBomb: true, flagged: false }), function(bombCell) {
-      reveal(bombCell.row, bombCell.col);
-    });
-  }
+  // if this cell is a bomb, reveal all other bombs
+  toReveal = (cell.isBomb) ? _.where(flatBoard, { revealed: false, isBomb: true, flagged: false }) : toReveal;
+
+  // cascade reveal
+  _.each(toReveal, function(cell) {
+    reveal(cell.row, cell.col);
+  });
 
   // game over if we revealed a bomb
   state.gameOver = cell.isBomb || getUnrevealedNonBombCells().length === 0;
