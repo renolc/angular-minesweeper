@@ -10,4 +10,6 @@
   </div>
   <div ng-show="game.state.gameOver" class="gameOver">Game Over</div>
   <input type="button" ng-click="game.reset()" value="New Game">
+  Board Size: <input ng-model="game.state.boardSize">
+  Bomb Count: <input ng-model="game.state.bombCount">
 </div>

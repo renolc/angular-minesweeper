@@ -6,17 +6,15 @@ var _ = require('underscore');
 var state = {
   board     : [],
   gameOver  : false,
-  flagsLeft : 0
+  flagsLeft : 0,
+  boardSize : 0,
+  bombCount : 0
 };
-
-// properties
-var boardSize;
-var bombCount;
 
 // init game and return the board
 function game(size, bombs) {
-  boardSize = size  || 9;
-  bombCount = bombs || 10;
+  state.boardSize = size  || 9;
+  state.bombCount = bombs || 10;
 
   reset();
 
@@ -25,8 +23,8 @@ function game(size, bombs) {
 
 // build out the board 2d array
 function buildBoard() {
-  state.board = _.times(boardSize, function(row) {
-    return _.times(boardSize, function(col) {
+  state.board = _.times(state.boardSize, function(row) {
+    return _.times(state.boardSize, function(col) {
       return {
         row           : row,
         col           : col,
@@ -41,7 +39,7 @@ function buildBoard() {
 
 // place bombs randomly on the board
 function placeBombs() {
-  var cells = _.sample(_.flatten(state.board), bombCount);
+  var cells = _.sample(_.flatten(state.board), state.bombCount);
   _.each(cells, function(cell) {
     cell.isBomb = true;
   });
@@ -121,7 +119,7 @@ function reset() {
   setNumbers();
 
   state.gameOver  = false;
-  state.flagsLeft = bombCount;
+  state.flagsLeft = state.bombCount;
 }
 
 game.state      = state;
