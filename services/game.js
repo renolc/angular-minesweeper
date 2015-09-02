@@ -1,19 +1,5 @@
 'use strict';
 
-var game = require('../modules/game');
-
 module.exports = function() {
-  this.board = game();
-
-  this.reveal = function(row, col) {
-    game.reveal(row, col);
-  };
-
-  this.toggleFlag = function(row, col) {
-    game.toggleFlag(row, col);
-  };
-
-  this.reset = function() {
-    this.board = game.reset();
-  };
+  this.simulation = require('../modules/game');
 };

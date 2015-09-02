@@ -2,12 +2,14 @@
 
 var _ = require('underscore');
 
-var game  = require('./modules/game');
-var board = game();
+var game = require('./modules/game');
+
+// init the game
+game();
 
 // print the board
 window.printBoard = function() {
-  var string = _.reduce(board, function(result, row) {
+  var string = _.reduce(game.state.board, function(result, row) {
     return result + _.reduce(row, function(result, cell) {
       return result + (cell.revealed ? cell.value : cell.flagged ? '?' : '-');
     }, '') + '\n';
@@ -31,7 +33,7 @@ window.toggleFlag = function(row, col) {
 
 // reset the game, and print it
 window.reset = function() {
-  board = game.reset();
+  game.reset();
   printBoard();
 }
 
