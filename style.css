@@ -47,7 +47,7 @@ input {
 }
 
 .flagged {
-  background-image: url(/images/flag.png);
+  background-image: url(./images/flag.png);
   background-repeat: no-repeat;
   background-position: 50%;
   background-size: 15px 18px;
@@ -58,7 +58,7 @@ input {
 }
 
 .bomb {
-  background-image: url(/images/bomb.png);
+  background-image: url(./images/bomb.png);
   background-repeat: no-repeat;
   background-position: 50%;
   background-size: 19px 18px;
