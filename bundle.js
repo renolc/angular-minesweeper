@@ -13,7 +13,7 @@ module.exports = function($scope, game) {
 
 module.exports = function() {
   return {
-    templateUrl: '/directives/board/board.html'
+    templateUrl: './directives/board/board.html'
   };
 };
 
