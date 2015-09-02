@@ -1,6 +1,10 @@
 # angular-minesweeper
 
-Navigate to [http://renolc.github.io/angular-minesweeper/](http://renolc.github.io/angular-minesweeper/) for a live example of the app.
+Navigate to [http://renolc.github.io/angular-minesweeper/](http://renolc.github.io/angular-minesweeper/) for a live
+example of the app.
+
+- Left Click  - reveal a cell
+- Right Click - flag/unflag a cell
 
 ## Setup
 
